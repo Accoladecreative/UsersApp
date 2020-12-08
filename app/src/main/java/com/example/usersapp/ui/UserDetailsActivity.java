@@ -22,6 +22,8 @@ public class UserDetailsActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             phone = intent.getStringExtra("phone");
         }
+
+
     }
 
 
