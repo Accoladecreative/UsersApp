@@ -9,12 +9,11 @@
         android:roundIcon="@drawable/my_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.UsersApp">
+        <activity android:name=".ui.UserDetailsActivity"></activity>
         <activity
             android:name=".ui.AddEditUserActivity"
-            android:parentActivityName=".ui.MainActivity"
             android:launchMode="singleTop"
-            />
-
+            android:parentActivityName=".ui.MainActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
