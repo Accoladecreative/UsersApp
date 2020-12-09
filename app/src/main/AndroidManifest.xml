@@ -16,7 +16,7 @@
         <activity
             android:name=".ui.AddEditUserActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.MainActivity" />
+            android:parentActivityName=".ui.UserDetailsActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

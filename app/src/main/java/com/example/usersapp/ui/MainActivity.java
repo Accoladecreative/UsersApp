@@ -12,24 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.usersapp.R;
 import com.example.usersapp.data.User;
 import com.example.usersapp.data.UserViewModel;
+import com.example.usersapp.ui.adapter.UserAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -95,13 +92,13 @@ public class MainActivity extends AppCompatActivity {
         userAdapter.SetOnClickListener(new UserAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
-                Intent intent = new Intent(MainActivity.this, AddEditUserActivity.class)
+                Intent intent = new Intent(MainActivity.this, UserDetailsActivity.class)
                         .putExtra(AddEditUserActivity.EXTRA_ID, user.getId())
                         .putExtra(AddEditUserActivity.EXTRA_FIRSTNAME, user.getFirstName())
                         .putExtra(AddEditUserActivity.EXTRA_LASTNAME, user.getLastName())
                         .putExtra(AddEditUserActivity.EXTRA_EMAIL, user.getEmail())
                         .putExtra(AddEditUserActivity.EXTRA_PHONE, user.getPhone());
-                startActivityForResult(intent, EDIT_USER_REQUEST_CODE);
+                startActivity(intent);
             }
         });
 
@@ -156,26 +153,7 @@ public class MainActivity extends AppCompatActivity {
             User user = new User(firstName, lastName, email, phone);
             viewModel.insert(user);
         }
-        if (requestCode == EDIT_USER_REQUEST_CODE && resultCode == RESULT_OK) {
-            assert data != null;
-            int id = data.getIntExtra(AddEditUserActivity.EXTRA_ID, -1);
-            if (id == -1) {
-                Toast.makeText(this, "Update failed...", Toast.LENGTH_LONG).show();
-                return;
-            }
-            String firstName = data.getStringExtra(AddEditUserActivity.EXTRA_FIRSTNAME);
-            String lastName = data.getStringExtra(AddEditUserActivity.EXTRA_LASTNAME);
-            String email = data.getStringExtra(AddEditUserActivity.EXTRA_EMAIL);
-            String phone = data.getStringExtra(AddEditUserActivity.EXTRA_PHONE);
 
-            User user = new User(firstName, lastName, email, phone);
-            user.setId(id);
-
-            viewModel.update(user);
-            Toast.makeText(this, "User Update Successful", Toast.LENGTH_LONG).show();
-
-
-        }
     }
 
 

@@ -19,9 +19,9 @@ public class AddEditUserActivity extends AppCompatActivity {
     public static final String EXTRA_PHONE = "com.example.usersapp.ui.AddEditUserActivity.phone";
 
     //ui
-    String firstName, lastName, email,phone;
-    EditText mFirstName, mLastName, mEmail,mPhone;
-    Button mSubmit;
+    private String firstName, lastName, email,phone;
+    private EditText mFirstName, mLastName, mEmail,mPhone;
+    private Button mSubmit;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -39,12 +39,13 @@ public class AddEditUserActivity extends AppCompatActivity {
         // getSupportActionBar().setHomeAsUpIndicator();
         Intent intent = getIntent();
         if(intent.hasExtra(EXTRA_ID)) {
-            setTitle("Edit user Info");
+
             mSubmit.setText("Update User");
             mFirstName.setText(intent.getStringExtra(EXTRA_FIRSTNAME));
             mLastName.setText(intent.getStringExtra(EXTRA_LASTNAME));
             mEmail.setText(intent.getStringExtra(EXTRA_EMAIL));
             mPhone.setText(intent.getStringExtra(EXTRA_PHONE));
+            setTitle("Edit "+lastName+" Info");
         }else{ setTitle("Add new user");}
 
 
@@ -74,7 +75,7 @@ public class AddEditUserActivity extends AppCompatActivity {
              mPhone.setError("Phone number is needed");
         }
          else {
-             Intent addUser = new Intent(this,MainActivity.class)
+             Intent addUser = new Intent(this,UserDetailsActivity.class)
              .putExtra(EXTRA_FIRSTNAME, firstName)
             .putExtra(EXTRA_LASTNAME, lastName)
             .putExtra(EXTRA_EMAIL, email)

@@ -1,4 +1,4 @@
-package com.example.usersapp.ui;
+package com.example.usersapp.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 public class UserAdapter extends RecyclerView.Adapter <UserAdapter.UserHolder> {
-    List<User> users = new ArrayList<>();
+    public List<User> users = new ArrayList<>();
     public OnItemClickListener listener;
 
     @NonNull
@@ -67,19 +67,16 @@ public class UserAdapter extends RecyclerView.Adapter <UserAdapter.UserHolder> {
             name = (TextView)itemView.findViewById(R.id.name);
             email = (TextView)itemView.findViewById(R.id.email);
             phone = (TextView)itemView.findViewById(R.id.phone);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if(listener != null && position!= RecyclerView.NO_POSITION){
-                    listener.onItemClick(users.get(position));
-                    }
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if(listener != null && position!= RecyclerView.NO_POSITION){
+                listener.onItemClick(users.get(position));
                 }
             });
         }
     }
 
-    interface OnItemClickListener{
+   public interface OnItemClickListener{
         void onItemClick(User user);
 
     }
