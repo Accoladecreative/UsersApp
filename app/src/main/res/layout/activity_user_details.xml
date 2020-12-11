@@ -9,12 +9,13 @@
 
     <ImageView
         android:id="@+id/profile_image"
-        android:layout_width="150dp"
+        android:layout_width="75dp"
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/profile_picture" />
+
 
     <TextView
         android:id="@+id/profile_phone"
@@ -58,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="@string/bio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
@@ -90,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="205dp" />
+        app:layout_constraintGuide_begin="121dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -107,6 +109,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/profile_bio"
         app:layout_constraintVertical_bias="0.0" />
@@ -135,4 +138,16 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/edit_bio" />
+
+    <ImageButton
+        android:id="@+id/edit_bio_pencil"
+        android:layout_width="14dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:tint="@color/purple_700"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/profile_bio"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:srcCompat="@drawable/ic_edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ public abstract class UserDatabase extends RoomDatabase {
         }
         return instance;
     }
-    private static RoomDatabase.Callback callback = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback callback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -48,6 +48,54 @@ public abstract class UserDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
+            userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
+            userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));
+            userDao.insertUser(new User("Titi", "Oluwadare", "titi@gmail.com", "08164029533"));
+            userDao.insertUser(new User("Taiwo", "Akanle", "taiwo@gmail.com", "08198272627"));
+            userDao.insertUser(new User("Kenny", "Akanle", "kenny@gmail.com", "897765467687"));
+            userDao.insertUser(new User("Timi", "Ibidun", "ibidun@gmail.com", "098765698769"));
+            userDao.insertUser(new User("Tomiwa", "Ibidun", "tommy@gmail.com", "98767876578"));
+            userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
+            userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
+            userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));
+            userDao.insertUser(new User("Titi", "Oluwadare", "titi@gmail.com", "08164029533"));
+            userDao.insertUser(new User("Taiwo", "Akanle", "taiwo@gmail.com", "08198272627"));
+            userDao.insertUser(new User("Kenny", "Akanle", "kenny@gmail.com", "897765467687"));
+            userDao.insertUser(new User("Timi", "Ibidun", "ibidun@gmail.com", "098765698769"));
+            userDao.insertUser(new User("Tomiwa", "Ibidun", "tommy@gmail.com", "98767876578"));
+            userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
+            userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
+            userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));
+            userDao.insertUser(new User("Titi", "Oluwadare", "titi@gmail.com", "08164029533"));
+            userDao.insertUser(new User("Taiwo", "Akanle", "taiwo@gmail.com", "08198272627"));
+            userDao.insertUser(new User("Kenny", "Akanle", "kenny@gmail.com", "897765467687"));
+            userDao.insertUser(new User("Timi", "Ibidun", "ibidun@gmail.com", "098765698769"));
+            userDao.insertUser(new User("Tomiwa", "Ibidun", "tommy@gmail.com", "98767876578"));
+            userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
+            userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
+            userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));
+            userDao.insertUser(new User("Titi", "Oluwadare", "titi@gmail.com", "08164029533"));
+            userDao.insertUser(new User("Taiwo", "Akanle", "taiwo@gmail.com", "08198272627"));
+            userDao.insertUser(new User("Kenny", "Akanle", "kenny@gmail.com", "897765467687"));
+            userDao.insertUser(new User("Timi", "Ibidun", "ibidun@gmail.com", "098765698769"));
+            userDao.insertUser(new User("Tomiwa", "Ibidun", "tommy@gmail.com", "98767876578"));
+            userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
+            userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
+            userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));
+            userDao.insertUser(new User("Titi", "Oluwadare", "titi@gmail.com", "08164029533"));
+            userDao.insertUser(new User("Taiwo", "Akanle", "taiwo@gmail.com", "08198272627"));
+            userDao.insertUser(new User("Kenny", "Akanle", "kenny@gmail.com", "897765467687"));
+            userDao.insertUser(new User("Timi", "Ibidun", "ibidun@gmail.com", "098765698769"));
+            userDao.insertUser(new User("Tomiwa", "Ibidun", "tommy@gmail.com", "98767876578"));
+            userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
+            userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
+            userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));
+            userDao.insertUser(new User("Titi", "Oluwadare", "titi@gmail.com", "08164029533"));
+            userDao.insertUser(new User("Taiwo", "Akanle", "taiwo@gmail.com", "08198272627"));
+            userDao.insertUser(new User("Kenny", "Akanle", "kenny@gmail.com", "897765467687"));
+            userDao.insertUser(new User("Timi", "Ibidun", "ibidun@gmail.com", "098765698769"));
+            userDao.insertUser(new User("Tomiwa", "Ibidun", "tommy@gmail.com", "98767876578"));
             userDao.insertUser(new User("Femi", "Oluwadare", "femi@gmail.com", "08132747502"));
             userDao.insertUser(new User("Tope", "Oluwadare", "tope@gmail.com", "07036927791"));
             userDao.insertUser(new User("Kolade", "Oluwadare", "kolade@gmail.com", "08104757514"));

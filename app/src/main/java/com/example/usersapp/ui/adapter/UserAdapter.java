@@ -41,7 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter <UserAdapter.UserHolder> {
                 startActivity(intent);*/
 
     }
-
+//todo: get the  items
 
     @Override
     public int getItemCount() {
