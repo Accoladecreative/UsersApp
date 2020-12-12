@@ -1,14 +1,5 @@
 package com.example.usersapp.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,10 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.usersapp.R;
 import com.example.usersapp.data.User;
 import com.example.usersapp.data.UserViewModel;
 import com.example.usersapp.ui.adapter.UserAdapter;
+import com.example.usersapp.ui.settings.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                         .putExtra(AddEditUserActivity.EXTRA_FIRSTNAME, user.getFirstName())
                         .putExtra(AddEditUserActivity.EXTRA_LASTNAME, user.getLastName())
                         .putExtra(AddEditUserActivity.EXTRA_EMAIL, user.getEmail())
+                        .putExtra(AddEditUserActivity.EXTRA_DOB,user.getDateOfBirth())
+                        .putExtra(AddEditUserActivity.EXTRA_DATEADDED,user.getDateAdded())
                         .putExtra(AddEditUserActivity.EXTRA_PHONE, user.getPhone());
                 startActivity(intent);
             }
@@ -147,8 +150,11 @@ public class MainActivity extends AppCompatActivity {
             String lastName = data.getStringExtra(AddEditUserActivity.EXTRA_LASTNAME);
             String email = data.getStringExtra(AddEditUserActivity.EXTRA_EMAIL);
             String phone = data.getStringExtra(AddEditUserActivity.EXTRA_PHONE);
+            String dob = data.getStringExtra(AddEditUserActivity.EXTRA_DOB);
+            String dateAdded = data.getStringExtra(AddEditUserActivity.EXTRA_DATEADDED);
 
-            User user = new User(firstName, lastName, email, phone);
+
+            User user = new User(firstName, lastName, email, dob, phone,dateAdded);
             viewModel.insert(user);
         }
 
@@ -202,9 +208,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Meun Sync is clicked", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.notify:
-                //     Intent intent = new Intent(this, Notification.class);
-                //   startActivity(intent);
+            case R.id.settings:
+                 Intent intent = new Intent(this, SettingsActivity.class);
+                 startActivity(intent);
                 return true;
             case R.id.custom_drive:
                 //new Asyn().execute();

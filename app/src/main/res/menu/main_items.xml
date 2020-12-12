@@ -38,6 +38,6 @@
     </menu>
 </item>
     <item
-        android:id="@+id/notify"
-        android:title="Notify Me" />
+        android:id="@+id/settings"
+        android:title="Settings" />
 </menu>

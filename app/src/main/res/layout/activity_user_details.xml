@@ -29,6 +29,51 @@
         app:layout_constraintTop_toBottomOf="@+id/profile_email" />
 
     <TextView
+        android:id="@+id/profile_dob1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Date Of Birth:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/profile_phone" />
+
+    <TextView
+        android:id="@+id/profile_dob"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Date Of Birth"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/profile_dob1"
+        app:layout_constraintTop_toBottomOf="@+id/profile_phone" />
+
+    <TextView
+        android:id="@+id/profile_date_added1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Date Added"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/profile_dob" />
+
+    <TextView
+        android:id="@+id/profile_date_added"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Date Added"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/profile_date_added1"
+        app:layout_constraintTop_toBottomOf="@+id/profile_dob" />
+
+
+    <TextView
         android:id="@+id/profile_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,7 +102,8 @@
         android:id="@+id/profile_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="92dp"
         android:text="@string/bio"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="@id/guideline2"

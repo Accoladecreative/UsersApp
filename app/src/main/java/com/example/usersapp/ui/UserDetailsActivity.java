@@ -1,12 +1,10 @@
 package com.example.usersapp.ui;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,28 +19,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.bumptech.glide.Glide;
 import com.example.usersapp.R;
 import com.example.usersapp.data.User;
 import com.example.usersapp.data.UserViewModel;
 
-import static com.example.usersapp.ui.AddEditUserActivity.*;
+import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_EMAIL;
+import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_FIRSTNAME;
+import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_ID;
+import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_LASTNAME;
+import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_PHONE;
 
 
 public class UserDetailsActivity extends AppCompatActivity {
     //constants
     private static final int EDIT_USER_REQUEST_CODE = 2;
     //widgets
-    private TextView mName, mEmail,mPhone, showBio;
+    private TextView mName, mEmail,mPhone, mDob, mDateAdded, showBio;
     private ImageView profile_image;
     private EditText editBio;
     private Button submitBio;
     private ImageButton editBioPencil;
     //variables
     private int id;
-    private String firstName, lastName, email,phone;
+    private String firstName, lastName, email,phone, dob, dateAdded;
     //data
     UserViewModel viewModel;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +64,11 @@ public class UserDetailsActivity extends AppCompatActivity {
         mName = findViewById(R.id.profile_name);
         mEmail = findViewById(R.id.profile_email);
         mPhone =  findViewById(R.id.profile_phone);
+        mDob =  findViewById(R.id.profile_dob);
+        mDateAdded =  findViewById(R.id.profile_date_added);
         profile_image =  findViewById(R.id.profile_image);
         editBioPencil = findViewById(R.id.edit_bio_pencil);
+
 
         editBio = findViewById(R.id.edit_bio);
         showBio = findViewById(R.id.show_bio);
@@ -67,18 +78,22 @@ public class UserDetailsActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.profile_picture).into(profile_image);
 
 
-        Intent intent = getIntent();
+        intent = getIntent();
         if(intent.hasExtra(EXTRA_ID)){
             id = intent.getIntExtra(AddEditUserActivity.EXTRA_ID,1);
             firstName = intent.getStringExtra(EXTRA_FIRSTNAME);
             lastName = intent.getStringExtra(EXTRA_LASTNAME);
             email = intent.getStringExtra(EXTRA_EMAIL);
             phone = intent.getStringExtra(EXTRA_PHONE);
+            dob = intent.getStringExtra(AddEditUserActivity.EXTRA_DOB);
+            dateAdded = intent.getStringExtra(AddEditUserActivity.EXTRA_DATEADDED);
             setTitle(firstName + " " + lastName);
 
             mName.setText(firstName + " " + lastName );
             mEmail.setText(email);
             mPhone.setText(phone);
+            mDob.setText(dob);
+            mDateAdded.setText(dateAdded);
         }
         else{
             Toast.makeText(this, "No User Availbale", Toast.LENGTH_LONG).show();
@@ -93,11 +108,54 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private void uploadImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,5);
+        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 203);
+        }else {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, 5);
+        }
     }
 
     void setShowBio(){
+        String mEditBio = editBio.getText().toString();
+        String mShowBio = showBio.getText().toString();
+
+        if(null == mShowBio){
+            editBio.setVisibility(View.VISIBLE);
+            submitBio.setVisibility(View.INVISIBLE);
+        }else if(mEditBio==null) {
+            editBio.setError("Invalid");
+            submitBio.setVisibility(View.INVISIBLE);
+        }else if(mEditBio !=null){
+            submitBio.setVisibility(View.VISIBLE);
+            submitBio.setOnClickListener(view ->
+            {
+
+                showBio.setVisibility(View.VISIBLE);
+                showBio.setText(mEditBio);
+                submitBio.setVisibility(View.INVISIBLE);
+                editBio.setVisibility(View.INVISIBLE);
+                editBioPencil.setVisibility(View.VISIBLE);
+            });
+        }
+        else if(null != mShowBio) {
+            showBio.setVisibility(View.VISIBLE);
+            submitBio.setVisibility(View.INVISIBLE);
+            editBio.setVisibility(View.INVISIBLE);
+            editBioPencil.setVisibility(View.VISIBLE);
+
+            editBioPencil.setOnClickListener(view -> {
+                editBio.setText(mShowBio);
+                editBio.setVisibility(View.INVISIBLE);
+                editBioPencil.setVisibility(View.INVISIBLE);
+            });
+
+        }
+
+
+
+
+/*
         editBio.setOnClickListener(view -> submitBio.setVisibility(View.VISIBLE));
         //make the click on edit button to make submit button vissible
         if(!showBio.getText().toString().isEmpty()){
@@ -110,9 +168,33 @@ public class UserDetailsActivity extends AppCompatActivity {
                     }
             );
 
-        if(!editBio.getText().toString().isEmpty()) {submitBio.setVisibility(View.VISIBLE);}else {
-            submitBio.setVisibility(View.INVISIBLE);
-        }}
+            if(!editBio.getText().toString().isEmpty()) {submitBio.setVisibility(View.VISIBLE);}else {
+                submitBio.setVisibility(View.INVISIBLE);
+            }}
+        submitBio.setOnClickListener(view -> {
+            if(editBio.getText().toString().isEmpty()){
+                Toast.makeText(this,"Bio is Empty",Toast.LENGTH_LONG).show();
+            }else{showBio.setText(editBio.getText().toString());
+                showBio.setVisibility(View.VISIBLE);
+                submitBio.setVisibility(View.INVISIBLE);
+                editBio.setVisibility(View.INVISIBLE);
+            }
+        });*//*
+        editBio.setOnClickListener(view -> submitBio.setVisibility(View.VISIBLE));
+        //make the click on edit button to make submit button vissible
+        if(!showBio.getText().toString().isEmpty()){
+            editBioPencil.setVisibility(View.VISIBLE);
+            editBioPencil.setOnClickListener(
+                    view -> {
+                        editBio.setText(showBio.getText().toString());
+                        editBio.setVisibility(View.VISIBLE);
+                        showBio.setVisibility(View.INVISIBLE);
+                    }
+            );
+
+            if(!editBio.getText().toString().isEmpty()) {}else {
+                submitBio.setVisibility(View.INVISIBLE);
+            }}
         submitBio.setOnClickListener(view -> {
             if(editBio.getText().toString().isEmpty()){
                 Toast.makeText(this,"Bio is Empty",Toast.LENGTH_LONG).show();
@@ -124,7 +206,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         });
 
 
-        }
+*/        }
 
        /* if(showBio.getText().toString() != null){
             editBio.setVisibility(View.GONE);submitBio.setVisibility(View.GONE);
@@ -147,8 +229,11 @@ public class UserDetailsActivity extends AppCompatActivity {
             String lastName = data.getStringExtra(AddEditUserActivity.EXTRA_LASTNAME);
             String email = data.getStringExtra(AddEditUserActivity.EXTRA_EMAIL);
             String phone = data.getStringExtra(AddEditUserActivity.EXTRA_PHONE);
+            String dob = data.getStringExtra(AddEditUserActivity.EXTRA_DOB);
+            String dateAdded = data.getStringExtra(AddEditUserActivity.EXTRA_DATEADDED);
 
-            User user = new User(firstName, lastName, email, phone);
+
+            User user = new User(firstName, lastName, email, dob, phone,dateAdded);
             user.setId(id);
 
             viewModel.update(user);
@@ -212,6 +297,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                    // viewModel.delete();
+
                 }
             });
             dialog.create().show();

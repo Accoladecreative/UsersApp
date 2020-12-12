@@ -7,13 +7,15 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private final String firstName,lastName,email, phone;
+    private final String firstName,lastName,email, phone, dateAdded, dateOfBirth;
 
-    public User(String firstName, String lastName, String email, String phone) {
+    public User(String firstName, String lastName, String email, String dateOfBirth, String phone, String dateAdded) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.dateAdded = dateAdded;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public void setId(int id) {
@@ -34,6 +36,14 @@ public class User {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getDateAdded() {
+        return dateAdded;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public int getId() {

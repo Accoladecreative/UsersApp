@@ -34,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter <UserAdapter.UserHolder> {
         holder.id.setText(String.valueOf(currentUser.getId()));
         holder.name.setText(currentUser.getFirstName() + " "+ currentUser.getLastName());
         holder.email.setText(currentUser.getEmail());
-        holder.phone.setText(currentUser.getPhone());
+       // holder.phone.setText(currentUser.getPhone());
 
             //Toast.makeText(context, "Book Update Successfully",Toast.LENGTH_LONG).show();
                 /*Intent intent = new Intent(UpdateBook.this, MainActivity.class);
@@ -58,7 +58,7 @@ public class UserAdapter extends RecyclerView.Adapter <UserAdapter.UserHolder> {
 
     class UserHolder extends RecyclerView.ViewHolder{
 
-        TextView name, email, phone, id;
+        TextView name, email, /*phone,*/ id;
 
 
         public UserHolder(@NonNull View itemView) {
@@ -66,7 +66,7 @@ public class UserAdapter extends RecyclerView.Adapter <UserAdapter.UserHolder> {
             id =(TextView)itemView.findViewById(R.id.UserId);
             name = (TextView)itemView.findViewById(R.id.name);
             email = (TextView)itemView.findViewById(R.id.email);
-            phone = (TextView)itemView.findViewById(R.id.phone);
+         //   phone = (TextView)itemView.findViewById(R.id.phone);
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(listener != null && position!= RecyclerView.NO_POSITION){

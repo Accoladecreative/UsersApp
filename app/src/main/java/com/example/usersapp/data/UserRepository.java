@@ -40,6 +40,10 @@ public class UserRepository {
         new DeleteAllAsync(userDao).execute();
     }
 
+    public void deleteThisUser(){
+
+    }
+
     public LiveData<List<User>> getAllUsers() {
         return allUsers;
 
