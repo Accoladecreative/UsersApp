@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 viewModel.delete(userAdapter.getUserAt(viewHolder.getAdapterPosition()));
                 Snackbar snackbar = Snackbar.make(viewHolder.itemView, "User successfully deleted", Snackbar.LENGTH_LONG)
-                        .setActionTextColor(getResources().getColor(R.color.yellow))
+                        .setActionTextColor(getResources().getColor(R.color.Orange))
 
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
