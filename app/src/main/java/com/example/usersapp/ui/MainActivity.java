@@ -1,8 +1,12 @@
 package com.example.usersapp.ui;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -32,7 +38,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_USER_REQUEST_CODE = 1;
-    private static final int EDIT_USER_REQUEST_CODE = 2;
+    //private static final int EDIT_USER_REQUEST_CODE = 2;
     //database
     UserViewModel viewModel;
 
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 viewModel.delete(userAdapter.getUserAt(viewHolder.getAdapterPosition()));
+                deleteOneUserNotification();
                 Snackbar snackbar = Snackbar.make(viewHolder.itemView, "User successfully deleted", Snackbar.LENGTH_LONG)
                         .setActionTextColor(getResources().getColor(R.color.Orange))
 
@@ -153,13 +160,56 @@ public class MainActivity extends AppCompatActivity {
             String dob = data.getStringExtra(AddEditUserActivity.EXTRA_DOB);
             String dateAdded = data.getStringExtra(AddEditUserActivity.EXTRA_DATEADDED);
 
-
             User user = new User(firstName, lastName, email, dob, phone,dateAdded);
             viewModel.insert(user);
+
+            Toast.makeText(this, "User " + firstName + " " + lastName + " created successfully ", Toast.LENGTH_SHORT).show();
+//            NewBookNotify
+            Intent intent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "newUser")
+                    .setContentTitle("One User Added")
+                    .setContentText("User " + firstName + " " + lastName + " created successfully ")
+                    .setSmallIcon(R.drawable.ic_user)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+            ;
+            Resources res = this.getResources();
+            final Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.profile_picture);
+
+            builder.setLargeIcon(bitmap);
+            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+            managerCompat.notify(1, builder.build());
+
+
         }
 
     }
 
+    private void deleteOneUserNotification() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Resources res = this.getResources();
+        final Bitmap bitmap = BitmapFactory.decodeResource(res,R.drawable.profile_picture);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "DeleteOneUser");
+        builder.setSmallIcon(R.drawable.ic_user)
+                .setContentTitle("One User deleted")
+                .setContentText("User Deleted Successfully")
+                .setLargeIcon(bitmap)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+        .addAction(R.drawable.ic_user,"Undo",pendingIntent)
+
+        ;
+
+
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+        managerCompat.notify(2,builder.build());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

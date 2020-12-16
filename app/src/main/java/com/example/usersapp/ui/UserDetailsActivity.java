@@ -29,6 +29,7 @@ import com.example.usersapp.R;
 import com.example.usersapp.data.User;
 import com.example.usersapp.data.UserViewModel;
 
+import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_DOB;
 import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_EMAIL;
 import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_FIRSTNAME;
 import static com.example.usersapp.ui.AddEditUserActivity.EXTRA_ID;
@@ -270,7 +271,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                 intent.putExtra(EXTRA_FIRSTNAME, firstName);
                 intent.putExtra(EXTRA_LASTNAME, lastName);
                 intent.putExtra(EXTRA_EMAIL, email);
-                intent.putExtra(EXTRA_PHONE, phone);
+                intent.putExtra(EXTRA_PHONE, phone); intent.putExtra(EXTRA_DOB, dob);
                 startActivityForResult(intent, EDIT_USER_REQUEST_CODE);
                 return true;
             case R.id.delete_user:

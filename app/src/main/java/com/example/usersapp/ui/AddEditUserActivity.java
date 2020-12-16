@@ -26,8 +26,8 @@ public class AddEditUserActivity extends AppCompatActivity {
     public static final String EXTRA_DATEADDED = "com.example.usersapp.ui.AddEditUserActivity.dateAdded";
 
     //ui
-    private String firstName, lastName, email,phone, dob,dateAdded;
-    private EditText mFirstName, mLastName, mEmail,mPhone, mDob;
+    private String firstName, lastName, email, phone, dob, dateAdded;
+    private EditText mFirstName, mLastName, mEmail, mPhone, mDob;
     private Button mSubmit;
     private Calendar calendar;
 
@@ -49,25 +49,22 @@ public class AddEditUserActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") DatePickerDialog.OnDateSetListener listener = (datePicker, year, month, dayOfTheMonth) -> {
             calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH,month);
-            calendar.set(Calendar.DAY_OF_MONTH,dayOfTheMonth);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfTheMonth);
 
             mDob.setText(new SimpleDateFormat("dd-MM-yyyy").format(calendar.getTime()));
 
         };
         mDob.setOnClickListener(view -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, listener,  calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                                                                calendar.get(Calendar.DAY_OF_MONTH));
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
         });
 
 
-
-
         // getSupportActionBar().setHomeAsUpIndicator();
         Intent intent = getIntent();
-        if(intent.hasExtra(EXTRA_ID)) {
-
+        if (intent.hasExtra(EXTRA_ID)) {
             mSubmit.setText("Update User");
             mFirstName.setText(intent.getStringExtra(EXTRA_FIRSTNAME));
             mLastName.setText(intent.getStringExtra(EXTRA_LASTNAME));
@@ -75,10 +72,10 @@ public class AddEditUserActivity extends AppCompatActivity {
             mPhone.setText(intent.getStringExtra(EXTRA_PHONE));
             mDob.setText(intent.getStringExtra(EXTRA_DOB));
 
-
-            setTitle("Edit "+lastName+" Info");
-        }else{ setTitle("Add new user");}
-
+            setTitle("Edit " + intent.getStringExtra(EXTRA_LASTNAME) + " Info");
+        } else {
+            setTitle("Add new user");
+        }
 
 
         //methods
@@ -97,44 +94,38 @@ public class AddEditUserActivity extends AppCompatActivity {
         //date added can neva be null
 
 
-
-        if(firstName.isEmpty()){
+        if (firstName.isEmpty()) {
             mFirstName.setError("FirstName is Needed");
-        }
-        else if(lastName.isEmpty() ){
+        } else if (lastName.isEmpty()) {
             mLastName.setError("LastName is Needed");
-        }
-        else if(email.isEmpty() ){
+        } else if (email.isEmpty()) {
             mLastName.setError("Email is Needed");
-        }
-         else if(phone.isEmpty() ){
-             mPhone.setError("Phone number is needed");
-        }
-        else if(dob.isEmpty() ){
+        } else if (phone.isEmpty()) {
+            mPhone.setError("Phone number is needed");
+        } else if (dob.isEmpty()) {
             mDob.setError("date of Birth is needed");
-        }
-         else {
-             //get the day he registered
+        } else {
+            //get the day he registered
             Date myDate = Calendar.getInstance().getTime();
-                    dateAdded = new SimpleDateFormat("dd-MM-yyyy : HH:mm").format(myDate);
-             Intent addUser = new Intent(this,UserDetailsActivity.class)
-                 .putExtra(EXTRA_FIRSTNAME, firstName)
-                .putExtra(EXTRA_LASTNAME, lastName)
-                .putExtra(EXTRA_EMAIL, email)
-                .putExtra(EXTRA_PHONE, phone)
-                     .putExtra(EXTRA_DOB,dob)
-                     .putExtra(EXTRA_DATEADDED,dateAdded)
+            dateAdded = new SimpleDateFormat("dd-MM-yyyy : HH:mm").format(myDate);
+            Intent addUser = new Intent(this, UserDetailsActivity.class)
+                    .putExtra(EXTRA_FIRSTNAME, firstName)
+                    .putExtra(EXTRA_LASTNAME, lastName)
+                    .putExtra(EXTRA_EMAIL, email)
+                    .putExtra(EXTRA_PHONE, phone)
+                    .putExtra(EXTRA_DOB, dob)
+                    .putExtra(EXTRA_DATEADDED, dateAdded);
 
-                     ;
-
-             int id = getIntent().getIntExtra(EXTRA_ID,-1);
-             if(id != -1){
-                 addUser.putExtra(EXTRA_ID,id);
-             }
-             setResult(RESULT_OK,addUser);
-             finish();
+            int id = getIntent().getIntExtra(EXTRA_ID, -1);
+            if (id != -1) {
+                addUser.putExtra(EXTRA_ID, id);
+            }
+            setResult(RESULT_OK, addUser);
+            finish();
         }
 
 
     }
+
+
 }
