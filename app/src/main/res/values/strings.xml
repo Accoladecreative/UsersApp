@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">UsersApp</string>
 
+    <!-- Navigation Bar Preferences -->
+    <string name="closedrawer">close Drawer</string>
+    <string name="OpenDrawer">Open Drawer</string>
+
+    <!-- User Details Preference -->
     <string name="email">Email</string>
     <string name="name">User FullName</string>
     <string name="phone">Phone Number</string>

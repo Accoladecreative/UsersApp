@@ -12,5 +12,14 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
     </style>
+
+
+    <!--
+    <style name="ButtomNavigationTheme" parent="Theme.AppCompat.Light">
+        <item android:state_checked="true" android:color="@color/orange"/>
+        <item android:color="@color/orange"/>
+    </style>-->
+
 </resources>

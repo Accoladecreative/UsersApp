@@ -16,9 +16,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -30,7 +33,9 @@ import com.example.usersapp.data.User;
 import com.example.usersapp.data.UserViewModel;
 import com.example.usersapp.ui.adapter.UserAdapter;
 import com.example.usersapp.ui.settings.SettingsActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -46,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     FloatingActionButton fab;
     UserAdapter userAdapter;
+
+
+    //Nav Drawer
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+
+    //Buttom Nav
+    BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -147,6 +161,37 @@ public class MainActivity extends AppCompatActivity {
             });*/
 
         }
+
+        //Navigation bar
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer,R.string.closedrawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        
+        
+        
+        //Butoom Nagi view
+        bottomNavigationView = findViewById(R.id.btm_nav);
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Toast.makeText(MainActivity.this, "You're at Home, Welcome", Toast.LENGTH_SHORT).show();
+                        bottomNavigationView.setSelectedItemId(R.id.home);
+                        return true;
+
+
+                        
+                }
+            return false;}
+        });
+
     }
 
     @Override

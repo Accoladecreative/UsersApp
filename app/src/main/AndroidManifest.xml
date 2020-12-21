@@ -24,7 +24,9 @@
 
         <activity android:name=".ui.Dashboard"/>
 
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
 
         <activity
             android:name=".ui.AddEditUserActivity"
