@@ -22,7 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.usersapp.R;
@@ -59,7 +59,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_details);
 
         //database
-        viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         //widgets
         mName = findViewById(R.id.profile_name);
@@ -75,7 +75,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         showBio = findViewById(R.id.show_bio);
         submitBio =  findViewById(R.id.submit_bio);
 
-        //profile image
+        //Profile image
         Glide.with(this).load(R.drawable.profile_picture).into(profile_image);
 
 
@@ -285,8 +285,8 @@ public class UserDetailsActivity extends AppCompatActivity {
 
     void alertDialog() {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Delete all?");
-            dialog.setMessage("Are you sure You want to delete all?");
+            dialog.setTitle("Delete user");
+            dialog.setMessage("Are you sure You want to delete user "+ firstName);
             dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -297,13 +297,20 @@ public class UserDetailsActivity extends AppCompatActivity {
             dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                   // viewModel.delete();
+                  sendDatatoMainActivityForDeleting();
 
                 }
             });
             dialog.create().show();
         }
 
+    private void sendDatatoMainActivityForDeleting() {
+        User user = new User(firstName, lastName, email, dob, phone,dateAdded);
+        user.setId(id);
+        viewModel.delete(user);
+        Toast.makeText(this, "User Deleted Successful", Toast.LENGTH_LONG).show();
+        finish();
+}
 
 
 }

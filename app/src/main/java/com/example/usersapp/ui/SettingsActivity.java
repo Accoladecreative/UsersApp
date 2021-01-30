@@ -1,4 +1,4 @@
-package com.example.usersapp.ui.settings;
+package com.example.usersapp.ui;
 
 import android.os.Bundle;
 

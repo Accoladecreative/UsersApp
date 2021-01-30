@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
-<!--    tools:openDrawer="start"-->
+    <!--    tools:openDrawer="start"-->
 
 
     <RelativeLayout
@@ -21,40 +21,61 @@
             android:elevation="5dp" />
 
         <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar">
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/btm_nav"
+            android:layout_marginBottom="8dp"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <!-- <Spinner
-                     android:id="@+id/spinner"
-
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginTop="64dp"
-
-                     app:layout_constraintBottom_toBottomOf="@id/spinner"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintHorizontal_bias="0.42"
-
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toTopOf="parent" />-->
+                android:layout_height="match_parent"
+                >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/my_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
                     tools:listitem="@layout/item_list" />
+              <RelativeLayout
+                  android:id="@+id/empty_activity"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintVertical_bias="0.0"
+                  android:layout_margin="20dp"
+                  android:alpha=".5"
+                  android:visibility="invisible">
+
+                  <ImageView
+                      android:layout_width="225dp"
+                      android:layout_height="194dp"
+                      android:layout_above="@id/iii"
+                      android:layout_centerInParent="true"
+                      android:src="@drawable/ic_empty" />
+
+                  <TextView
+                      android:id="@+id/iii"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:layout_centerInParent="true"
+                      android:layout_marginBottom="150dp"
+                      android:text="No User Found, Add a User First"
+                      android:textAlignment="center"
+                      android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+              </RelativeLayout>
+
+
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"
@@ -66,27 +87,26 @@
                     android:focusable="true"
                     app:backgroundTint="@color/orange"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/btm_nav"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.94"
                     app:layout_constraintStart_toStartOf="parent"
                     app:srcCompat="@drawable/ic_baseline_add_24" />
 
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/btm_nav"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:itemIconTint="@color/menu_selector"
-                    app:itemTextColor="@color/menu_selector"
-                    app:itemBackground="@color/white"
-                    app:menu="@menu/btm_nav_menu" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </FrameLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btm_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/menu_selector"
+        app:itemTextColor="@color/menu_selector"
+            android:layout_alignParentBottom="true"
+        app:menu="@menu/btm_nav_menu" />
 
     </RelativeLayout>
 
@@ -96,6 +116,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/menu_selector"
+        app:itemTextColor="@color/menu_selector"
         app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

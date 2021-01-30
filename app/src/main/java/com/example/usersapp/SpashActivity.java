@@ -28,5 +28,7 @@ public class SpashActivity extends AppCompatActivity {
 
             }
         },3000);
+
     }
+    public static void main(String[] args){ }
 }

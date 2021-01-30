@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -61,7 +62,10 @@ public class AddEditUserActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
+            /*
+            checking if user exist, to update or tpo
 
+             */
         // getSupportActionBar().setHomeAsUpIndicator();
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)) {
@@ -99,9 +103,13 @@ public class AddEditUserActivity extends AppCompatActivity {
         } else if (lastName.isEmpty()) {
             mLastName.setError("LastName is Needed");
         } else if (email.isEmpty()) {
-            mLastName.setError("Email is Needed");
+            mEmail.setError("Email is Needed");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        mEmail.setError("Invalid Email");
         } else if (phone.isEmpty()) {
             mPhone.setError("Phone number is needed");
+        } else if(phone.toString().length()<10){
+            mPhone.setError("Invalid Phone number");
         } else if (dob.isEmpty()) {
             mDob.setError("date of Birth is needed");
         } else {

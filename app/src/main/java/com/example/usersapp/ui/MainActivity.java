@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,6 @@ import com.example.usersapp.R;
 import com.example.usersapp.data.User;
 import com.example.usersapp.data.UserViewModel;
 import com.example.usersapp.ui.adapter.UserAdapter;
-import com.example.usersapp.ui.settings.SettingsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
 
+    RelativeLayout relativeLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(userAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        relativeLayout = findViewById(R.id.empty_activity);
+
 
 
         //data
@@ -82,10 +87,16 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<User> users) {
                 //update ui
                 userAdapter.setUsers(users);
+                if (userAdapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    relativeLayout.setVisibility(View.VISIBLE);
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    relativeLayout.setVisibility(View.INVISIBLE);
+                }
 
             }
         });
-
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
@@ -95,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //todo: add to user achieve
                 viewModel.delete(userAdapter.getUserAt(viewHolder.getAdapterPosition()));
                 deleteOneUserNotification();
                 Snackbar snackbar = Snackbar.make(viewHolder.itemView, "User successfully deleted", Snackbar.LENGTH_LONG)
@@ -132,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        if (userAdapter.users.isEmpty()) {
+
 /*
             Working with spinner
            \
@@ -160,21 +172,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });*/
 
-        }
 
-        //Navigation bar
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
-        drawerLayout = findViewById(R.id.drawer_layout);
+        initNavBar();
+        initBottomNabBAr();
 
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer,R.string.closedrawer);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        
-        
-        
-        //Butoom Nagi view
+    }
+
+    private void initBottomNabBAr() {
         bottomNavigationView = findViewById(R.id.btm_nav);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -185,12 +189,44 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "You're at Home, Welcome", Toast.LENGTH_SHORT).show();
                         bottomNavigationView.setSelectedItemId(R.id.home);
                         return true;
-
-
-                        
+                    case R.id.cart:
+                       startActivity(new Intent(MainActivity.this, Explore.class));
+                       break;
                 }
-            return false;}
+                return false;}
         });
+
+    }
+
+    private void initNavBar() {
+        //Navigation bar
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer,R.string.closedrawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Toast.makeText(MainActivity.this, "You're at Home, Welcome", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.cart:
+                        startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+                        break;
+                    case R.id.categories:
+                        startActivity(new Intent(MainActivity.this,Dashboard.class));
+                        break;
+                }
+                return false;}
+        });
+
+
 
     }
 
@@ -213,38 +249,46 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+
+            Resources res = this.getResources();
+            final Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.ic_user);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "newUser")
                     .setContentTitle("One User Added")
                     .setContentText("User " + firstName + " " + lastName + " created successfully ")
-                    .setSmallIcon(R.drawable.ic_user)
+                    .setSmallIcon(R.drawable.profile_picture)
                     .setAutoCancel(true)
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setLargeIcon(bitmap)
+                    .setGroup("addUser")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                        .setBigContentTitle("User " +firstName +" added")
+                        .bigText(firstName +" "+ lastName+" added successfully with Email: "+email+" and Date of Birth: "+dob+"\n\n Successfully added on"+ dateAdded)
+                        )
+                    .addAction(R.drawable.profile_picture,"View",pendingIntent)
             ;
-            Resources res = this.getResources();
-            final Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.profile_picture);
 
-            builder.setLargeIcon(bitmap);
             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
             managerCompat.notify(1, builder.build());
-
-
         }
+
 
     }
 
-    private void deleteOneUserNotification() {
+    public void deleteOneUserNotification() {
 
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
         Resources res = this.getResources();
-        final Bitmap bitmap = BitmapFactory.decodeResource(res,R.drawable.profile_picture);
+        final Bitmap bitmap = BitmapFactory.decodeResource(res,R.drawable.my_logo);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "DeleteOneUser");
-        builder.setSmallIcon(R.drawable.ic_user)
+        builder.setSmallIcon(R.drawable.profile_picture)
                 .setContentTitle("One User deleted")
                 .setContentText("User Deleted Successfully")
                 .setLargeIcon(bitmap)
                 .setAutoCancel(true)
+                .setGroup("deleteUser")
                 .setContentIntent(pendingIntent)
         .addAction(R.drawable.ic_user,"Undo",pendingIntent)
 
